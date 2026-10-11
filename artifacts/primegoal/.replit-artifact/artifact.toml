@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "PrimeGoal"
+description = "A responsive football scores and fixtures website for following today’s matches, live scores, leagues, standings, and match details."
+version = "1.0.0"
+id = "artifacts/primegoal"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 18948
+
+[services.development]
+run = "pnpm --filter @workspace/primegoal run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/primegoal", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/primegoal/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "18948"
+BASE_PATH = "/"

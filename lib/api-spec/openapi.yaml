@@ -10,6 +10,8 @@ servers:
 tags:
   - name: health
     description: Health operations
+  - name: football
+    description: Football fixtures, competitions, and standings
 paths:
   /healthz:
     get:
@@ -24,6 +26,114 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthStatus"
+  /football/fixtures:
+    get:
+      operationId: getFootballFixtures
+      tags: [football]
+      summary: Get football fixtures for a date
+      parameters:
+        - name: date
+          in: query
+          required: true
+          schema:
+            type: string
+            pattern: '^\d{4}-\d{2}-\d{2}$'
+        - name: competition
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Fixtures from the configured provider or clearly identified demonstration data
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FootballFixturesResponse"
+        "502":
+          description: Football data provider could not be reached
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+  /football/competitions:
+    get:
+      operationId: getFootballCompetitions
+      tags: [football]
+      summary: List football competitions
+      responses:
+        "200":
+          description: Competitions from the configured provider or demonstration catalogue
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FootballCompetitionsResponse"
+        "502":
+          description: Football data provider could not be reached
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+  /football/competitions/{code}/standings:
+    get:
+      operationId: getFootballStandings
+      tags: [football]
+      summary: Get competition standings
+      parameters:
+        - name: code
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Competition table
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FootballStandingsResponse"
+        "404":
+          description: Competition not found or standings unavailable
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "502":
+          description: Football data provider could not be reached
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+  /football/matches/{id}:
+    get:
+      operationId: getFootballMatch
+      tags: [football]
+      summary: Get football match details
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Match details
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FootballMatch"
+        "404":
+          description: Match not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "502":
+          description: Football data provider could not be reached
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
 components:
   schemas:
     HealthStatus:
@@ -33,4 +143,140 @@ components:
           type: string
       required:
         - status
+    ApiError:
+      type: object
+      properties:
+        error:
+          type: string
+      required: [error]
+    FootballSource:
+      type: string
+      enum: [live, demo]
+    FootballTeam:
+      type: object
+      properties:
+        id:
+          type: ["integer", "null"]
+        name:
+          type: string
+        shortName:
+          type: ["string", "null"]
+        crest:
+          type: ["string", "null"]
+      required: [id, name, shortName, crest]
+    FootballCompetition:
+      type: object
+      properties:
+        code:
+          type: string
+        name:
+          type: string
+        emblem:
+          type: ["string", "null"]
+        areaName:
+          type: ["string", "null"]
+      required: [code, name, emblem, areaName]
+    FootballScore:
+      type: object
+      properties:
+        home:
+          type: ["integer", "null"]
+        away:
+          type: ["integer", "null"]
+      required: [home, away]
+    FootballMatch:
+      type: object
+      properties:
+        id:
+          type: integer
+        utcDate:
+          type: string
+          format: date-time
+        status:
+          type: string
+          enum: [SCHEDULED, TIMED, LIVE, IN_PLAY, PAUSED, FINISHED, POSTPONED, SUSPENDED, CANCELLED, AWARDED]
+        minute:
+          type: ["integer", "null"]
+        competition:
+          $ref: "#/components/schemas/FootballCompetition"
+        homeTeam:
+          $ref: "#/components/schemas/FootballTeam"
+        awayTeam:
+          $ref: "#/components/schemas/FootballTeam"
+        score:
+          $ref: "#/components/schemas/FootballScore"
+        matchday:
+          type: ["integer", "null"]
+        venue:
+          type: ["string", "null"]
+      required: [id, utcDate, status, minute, competition, homeTeam, awayTeam, score, matchday, venue]
+    FootballFixturesResponse:
+      type: object
+      properties:
+        source:
+          $ref: "#/components/schemas/FootballSource"
+        updatedAt:
+          type: string
+          format: date-time
+        matches:
+          type: array
+          items:
+            $ref: "#/components/schemas/FootballMatch"
+      required: [source, updatedAt, matches]
+    FootballCompetitionsResponse:
+      type: object
+      properties:
+        source:
+          $ref: "#/components/schemas/FootballSource"
+        updatedAt:
+          type: string
+          format: date-time
+        competitions:
+          type: array
+          items:
+            $ref: "#/components/schemas/FootballCompetition"
+      required: [source, updatedAt, competitions]
+    FootballStandingRow:
+      type: object
+      properties:
+        position:
+          type: integer
+        teamId:
+          type: ["integer", "null"]
+        teamName:
+          type: string
+        crest:
+          type: ["string", "null"]
+        playedGames:
+          type: integer
+        won:
+          type: integer
+        draw:
+          type: integer
+        lost:
+          type: integer
+        points:
+          type: integer
+        goalsFor:
+          type: integer
+        goalsAgainst:
+          type: integer
+        goalDifference:
+          type: integer
+      required: [position, teamId, teamName, crest, playedGames, won, draw, lost, points, goalsFor, goalsAgainst, goalDifference]
+    FootballStandingsResponse:
+      type: object
+      properties:
+        source:
+          $ref: "#/components/schemas/FootballSource"
+        updatedAt:
+          type: string
+          format: date-time
+        competition:
+          $ref: "#/components/schemas/FootballCompetition"
+        table:
+          type: array
+          items:
+            $ref: "#/components/schemas/FootballStandingRow"
+      required: [source, updatedAt, competition, table]
 

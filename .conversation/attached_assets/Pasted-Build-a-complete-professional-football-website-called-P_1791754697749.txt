@@ -1,0 +1,71 @@
+Build a complete, professional football website called PrimeGoal.
+
+REFERENCE WEBSITE:
+https://kora-365.xyz
+
+I want PrimeGoal to have a visual design, layout, structure, and user experience closely inspired by the reference website.
+
+IMPORTANT: The website name must be PrimeGoal everywhere. Do not use Kora365 as the name of my website.
+
+1. DESIGN AND APPEARANCE
+
+- Analyze the reference website carefully before starting development.
+- Recreate its overall football-focused design and layout as closely as reasonably possible.
+- Use a similar color palette, typography, spacing, navigation structure, match cards, and page organization.
+- Create a polished, professional football website.
+- Use PrimeGoal branding, including a professional logo and favicon.
+- Do not copy protected logos or proprietary assets.
+
+2. MOBILE AND DESKTOP SUPPORT
+
+- Make the website fully responsive on mobile phones, tablets, laptops, and desktop computers.
+- Ensure the design adapts naturally to different screen sizes.
+- On mobile, optimize the navigation, match cards, buttons, and typography for touchscreens.
+- Prevent horizontal scrolling and broken layouts.
+
+3. FOOTBALL FEATURES
+
+Include:
+
+- Today's football matches.
+- Live matches and real-time scores when supported by the data provider.
+- Upcoming and completed matches.
+- Team names and logos.
+- Match dates, kickoff times, and scores.
+- Football leagues and competitions.
+- Match schedules organized by date.
+- League tables and standings.
+- Match details pages.
+- Search and filtering by league, date, and match status.
+
+4. REAL FOOTBALL DATA
+
+- Use a reliable football API to retrieve real fixtures, scores, leagues, and team information.
+- Never display fake scores as real live results.
+- If an API key is required, explain how to configure it securely.
+- If no API is configured, clearly identify any sample data as demonstration data.
+
+5. TECHNOLOGY
+
+- Use React and TypeScript with modern CSS.
+- Build reusable components and maintainable code.
+- Create a fast, accessible, SEO-friendly website.
+- Optimize loading speed and performance on mobile and desktop.
+- Implement working navigation, filters, match cards, and interactive elements.
+
+6. BRANDING
+
+Website name: PrimeGoal
+Use PrimeGoal consistently in the header, logo, browser title, favicon, and website metadata.
+
+Create a premium, modern football brand identity that looks trustworthy and professional.
+
+7. FINAL REQUIREMENTS
+
+- Build the actual functional website, not just a mockup or screenshot.
+- Examine the reference website before implementing the design.
+- If the reference website cannot be accessed, tell me instead of pretending you inspected it.
+- Test the website at mobile, tablet, and desktop resolutions.
+- Fix errors and ensure all implemented features work correctly.
+
+Start building PrimeGoal now.

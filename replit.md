@@ -1,6 +1,6 @@
-# [Project name]
+# PrimeGoal
 
-_Replace the heading above with the project's name, and this line with one sentence describing what this app does for users._
+PrimeGoal is a responsive football fixtures and scores site with competition standings and match details.
 
 ## Run & Operate
 
@@ -22,19 +22,23 @@ _Replace the heading above with the project's name, and this line with one sente
 
 ## Where things live
 
-_Populate as you build — short repo map plus pointers to the source-of-truth file for DB schema, API contracts, theme files, etc._
+- `artifacts/primegoal/` — responsive React + TypeScript web app
+- `lib/api-spec/openapi.yaml` — source of truth for generated app API contracts
+- `artifacts/api-server/src/routes/football.ts` and `src/lib/football-data.ts` — football data endpoints and provider adapter
 
 ## Architecture decisions
 
-_Populate as you build — non-obvious choices a reader couldn't infer from the code (3-5 bullets)._
+- football-data.org is called only from the API server; configure `FOOTBALL_DATA_API_KEY` as a Replit Secret, never as a browser variable.
+- With no provider key, the API returns explicitly marked demonstration fixtures and tables. Provider failures stay errors rather than silently switching to sample scores.
 
 ## Product
 
-_Describe the high-level user-facing capabilities of this app once they exist._
+- Browse fixtures by date, league, status, and team; open match details and competition tables.
+- Provider fixtures and match details refresh periodically when live data is configured.
 
 ## User preferences
 
-_Populate as you build — explicit user instructions worth remembering across sessions._
+- Use PrimeGoal as the website name throughout; follow the supplied football-score site as a structural reference without reusing its protected branding or assets.
 
 ## Gotchas
 
