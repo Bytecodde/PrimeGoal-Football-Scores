@@ -6,8 +6,11 @@
  * OpenAPI spec version: 0.1.0
  */
 import type { FootballCompetition } from './footballCompetition';
+import type { FootballLineup } from './footballLineup';
+import type { FootballMatchEvent } from './footballMatchEvent';
 import type { FootballMatchStatus } from './footballMatchStatus';
 import type { FootballScore } from './footballScore';
+import type { FootballStream } from './footballStream';
 import type { FootballTeam } from './footballTeam';
 
 export interface FootballMatch {
@@ -24,4 +27,7 @@ export interface FootballMatch {
   matchday: number | null;
   /** @nullable */
   venue: string | null;
+  events: FootballMatchEvent[];
+  lineups: FootballLineup[];
+  stream: FootballStream | null;
 }

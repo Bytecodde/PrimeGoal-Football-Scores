@@ -18,7 +18,7 @@ export const HealthCheckResponse = zod.object({
 
 
 /**
- * @summary Get football fixtures for a date
+ * @summary Get verified football fixtures for a date
  */
 export const getFootballFixturesQueryDateRegExp = new RegExp('^\\d{4}-\\d{2}-\\d{2}$');
 
@@ -29,7 +29,7 @@ export const GetFootballFixturesQueryParams = zod.object({
 })
 
 export const GetFootballFixturesResponse = zod.object({
-  "source": zod.enum(['live', 'demo']),
+  "source": zod.enum(['live']),
   "updatedAt": zod.coerce.date(),
   "matches": zod.array(zod.object({
   "id": zod.number().int(),
@@ -59,7 +59,41 @@ export const GetFootballFixturesResponse = zod.object({
   "away": zod.number().int().nullable()
 }),
   "matchday": zod.number().int().nullable(),
-  "venue": zod.string().nullable()
+  "venue": zod.string().nullable(),
+  "events": zod.array(zod.object({
+  "minute": zod.number().int().nullable(),
+  "type": zod.string(),
+  "teamName": zod.string().nullable(),
+  "playerName": zod.string().nullable(),
+  "detail": zod.string().nullable(),
+  "score": zod.union([zod.object({
+  "home": zod.number().int().nullable(),
+  "away": zod.number().int().nullable()
+}),zod.null()])
+})),
+  "lineups": zod.array(zod.object({
+  "teamId": zod.number().int().nullable(),
+  "teamName": zod.string(),
+  "formation": zod.string().nullable(),
+  "coach": zod.string().nullable(),
+  "starters": zod.array(zod.object({
+  "id": zod.number().int().nullable(),
+  "name": zod.string(),
+  "position": zod.string().nullable(),
+  "shirtNumber": zod.number().int().nullable()
+})),
+  "substitutes": zod.array(zod.object({
+  "id": zod.number().int().nullable(),
+  "name": zod.string(),
+  "position": zod.string().nullable(),
+  "shirtNumber": zod.number().int().nullable()
+}))
+})),
+  "stream": zod.union([zod.object({
+  "providerName": zod.string(),
+  "embedUrl": zod.string().url(),
+  "watchUrl": zod.string().url().nullable()
+}),zod.null()])
 }))
 })
 
@@ -68,7 +102,7 @@ export const GetFootballFixturesResponse = zod.object({
  * @summary List football competitions
  */
 export const GetFootballCompetitionsResponse = zod.object({
-  "source": zod.enum(['live', 'demo']),
+  "source": zod.enum(['live']),
   "updatedAt": zod.coerce.date(),
   "competitions": zod.array(zod.object({
   "code": zod.string(),
@@ -87,7 +121,7 @@ export const GetFootballStandingsParams = zod.object({
 })
 
 export const GetFootballStandingsResponse = zod.object({
-  "source": zod.enum(['live', 'demo']),
+  "source": zod.enum(['live']),
   "updatedAt": zod.coerce.date(),
   "competition": zod.object({
   "code": zod.string(),
@@ -147,7 +181,41 @@ export const GetFootballMatchResponse = zod.object({
   "away": zod.number().int().nullable()
 }),
   "matchday": zod.number().int().nullable(),
-  "venue": zod.string().nullable()
+  "venue": zod.string().nullable(),
+  "events": zod.array(zod.object({
+  "minute": zod.number().int().nullable(),
+  "type": zod.string(),
+  "teamName": zod.string().nullable(),
+  "playerName": zod.string().nullable(),
+  "detail": zod.string().nullable(),
+  "score": zod.union([zod.object({
+  "home": zod.number().int().nullable(),
+  "away": zod.number().int().nullable()
+}),zod.null()])
+})),
+  "lineups": zod.array(zod.object({
+  "teamId": zod.number().int().nullable(),
+  "teamName": zod.string(),
+  "formation": zod.string().nullable(),
+  "coach": zod.string().nullable(),
+  "starters": zod.array(zod.object({
+  "id": zod.number().int().nullable(),
+  "name": zod.string(),
+  "position": zod.string().nullable(),
+  "shirtNumber": zod.number().int().nullable()
+})),
+  "substitutes": zod.array(zod.object({
+  "id": zod.number().int().nullable(),
+  "name": zod.string(),
+  "position": zod.string().nullable(),
+  "shirtNumber": zod.number().int().nullable()
+}))
+})),
+  "stream": zod.union([zod.object({
+  "providerName": zod.string(),
+  "embedUrl": zod.string().url(),
+  "watchUrl": zod.string().url().nullable()
+}),zod.null()])
 })
 
 

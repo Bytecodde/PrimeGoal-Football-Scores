@@ -11,5 +11,4 @@ export type FootballSource = typeof FootballSource[keyof typeof FootballSource];
 
 export const FootballSource = {
   live: 'live',
-  demo: 'demo',
 } as const;

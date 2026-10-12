@@ -20,7 +20,7 @@ const router: IRouter = Router();
 
 function providerFailure(res: Response, error: unknown): void {
   if (error instanceof FootballProviderError) {
-    res.status(502).json({ error: "Live football data is temporarily unavailable." });
+    res.status(error.statusCode).json({ error: error.message });
     return;
   }
   throw error;

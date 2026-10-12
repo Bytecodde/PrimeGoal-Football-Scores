@@ -18,7 +18,6 @@ export type FootballSource = typeof FootballSource[keyof typeof FootballSource];
 
 export const FootballSource = {
   live: 'live',
-  demo: 'demo',
 } as const;
 
 export interface FootballTeam {
@@ -45,6 +44,48 @@ export interface FootballScore {
   home: number | null;
   /** @nullable */
   away: number | null;
+}
+
+export interface FootballMatchEvent {
+  /** @nullable */
+  minute: number | null;
+  type: string;
+  /** @nullable */
+  teamName: string | null;
+  /** @nullable */
+  playerName: string | null;
+  /** @nullable */
+  detail: string | null;
+  score: FootballScore | null;
+}
+
+export interface FootballPlayer {
+  /** @nullable */
+  id: number | null;
+  name: string;
+  /** @nullable */
+  position: string | null;
+  /** @nullable */
+  shirtNumber: number | null;
+}
+
+export interface FootballLineup {
+  /** @nullable */
+  teamId: number | null;
+  teamName: string;
+  /** @nullable */
+  formation: string | null;
+  /** @nullable */
+  coach: string | null;
+  starters: FootballPlayer[];
+  substitutes: FootballPlayer[];
+}
+
+export interface FootballStream {
+  providerName: string;
+  embedUrl: string;
+  /** @nullable */
+  watchUrl: string | null;
 }
 
 export type FootballMatchStatus = typeof FootballMatchStatus[keyof typeof FootballMatchStatus];
@@ -77,6 +118,9 @@ export interface FootballMatch {
   matchday: number | null;
   /** @nullable */
   venue: string | null;
+  events: FootballMatchEvent[];
+  lineups: FootballLineup[];
+  stream: FootballStream | null;
 }
 
 export interface FootballFixturesResponse {

@@ -146,7 +146,7 @@ export const getGetFootballFixturesUrl = (params: GetFootballFixturesParams,) =>
 }
 
 /**
- * @summary Get football fixtures for a date
+ * @summary Get verified football fixtures for a date
  */
 export const getFootballFixtures = async (params: GetFootballFixturesParams, options?: Parameters<typeof customFetch>[1]): Promise<FootballFixturesResponse> => {
 
@@ -193,7 +193,7 @@ export type GetFootballFixturesQueryError = ErrorType<ApiError>
 
 
 /**
- * @summary Get football fixtures for a date
+ * @summary Get verified football fixtures for a date
  */
 
 export function useGetFootballFixtures<TData = Awaited<ReturnType<typeof getFootballFixtures>>, TError = ErrorType<ApiError>>(

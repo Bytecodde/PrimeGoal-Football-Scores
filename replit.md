@@ -29,7 +29,8 @@ PrimeGoal is a responsive football fixtures and scores site with competition sta
 ## Architecture decisions
 
 - football-data.org is called only from the API server; configure `FOOTBALL_DATA_API_KEY` as a Replit Secret, never as a browser variable.
-- With no provider key, the API returns explicitly marked demonstration fixtures and tables. Provider failures stay errors rather than silently switching to sample scores.
+- Never show fabricated fixtures, scores, standings, team identities, live states, or streams. Without the provider key, return a clear configuration error; provider failures stay errors.
+- Football score data does not imply broadcast rights. Keep match streams unavailable unless a licensed provider adapter supplies an authorized HTTPS embed and viewing URL.
 
 ## Product
 

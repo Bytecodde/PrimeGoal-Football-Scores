@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Barlow+Condensed:wght@500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
 @import 'tailwindcss';
 @import 'tw-animate-css';
 @plugin "@tailwindcss/typography";
@@ -18,49 +18,51 @@
   --radius-lg: var(--radius); --radius-xl: calc(var(--radius) + 4px);
 }
 :root {
-  --background: 40 30% 96%; --foreground: 160 22% 15%; --border: 38 17% 86%;
-  --card: 42 36% 99%; --card-foreground: 160 22% 15%; --input: 38 17% 86%; --ring: 151 55% 32%;
-  --primary: 151 55% 27%; --primary-foreground: 42 36% 99%;
-  --secondary: 152 22% 91%; --secondary-foreground: 160 22% 18%;
-  --muted: 42 23% 92%; --muted-foreground: 158 9% 45%;
-  --accent: 17 79% 55%; --accent-foreground: 42 36% 99%;
-  --destructive: 1 66% 49%; --destructive-foreground: 42 36% 99%;
-  --app-font-sans: 'DM Sans', sans-serif; --app-font-serif: 'Barlow Condensed', sans-serif; --app-font-mono: 'DM Sans', monospace;
-  --radius: 0.75rem; --sidebar: 158 28% 17%; --sidebar-foreground: 45 30% 94%;
-  --sidebar-border: 158 22% 26%; --sidebar-primary: 151 55% 32%; --sidebar-primary-foreground: 45 30% 94%;
-  --sidebar-accent: 158 22% 24%; --sidebar-accent-foreground: 45 30% 94%; --sidebar-ring: 151 55% 32%;
-  --card-border: 38 17% 86%; --popover: 42 36% 99%; --popover-foreground: 160 22% 15%; --popover-border: 38 17% 86%;
-  --chart-1: 151 55% 32%; --chart-2: 17 79% 55%; --chart-3: 43 80% 52%; --chart-4: 189 38% 42%; --chart-5: 10 40% 54%;
+  color-scheme: dark;
+  --background: 220 13% 8%; --foreground: 210 18% 92%; --border: 220 9% 20%;
+  --card: 220 12% 11%; --card-foreground: 210 18% 92%; --input: 220 10% 17%; --ring: 145 58% 48%;
+  --primary: 145 58% 47%; --primary-foreground: 220 15% 8%;
+  --secondary: 220 10% 16%; --secondary-foreground: 210 18% 90%;
+  --muted: 220 10% 15%; --muted-foreground: 216 8% 61%;
+  --accent: 145 58% 47%; --accent-foreground: 220 15% 8%;
+  --destructive: 3 61% 57%; --destructive-foreground: 210 18% 95%;
+  --app-font-sans: 'DM Sans', sans-serif; --app-font-serif: 'Manrope', sans-serif; --app-font-mono: 'IBM Plex Mono', monospace;
+  --radius: 0.8rem; --sidebar: 220 14% 7%; --sidebar-foreground: 210 18% 92%;
+  --sidebar-border: 220 9% 19%; --sidebar-primary: 145 58% 47%; --sidebar-primary-foreground: 220 15% 8%;
+  --sidebar-accent: 220 10% 14%; --sidebar-accent-foreground: 210 18% 92%; --sidebar-ring: 145 58% 47%;
+  --card-border: 220 9% 20%; --popover: 220 12% 11%; --popover-foreground: 210 18% 92%; --popover-border: 220 9% 20%;
+  --chart-1: 145 58% 47%; --chart-2: 31 66% 58%; --chart-3: 193 42% 54%; --chart-4: 269 29% 62%; --chart-5: 4 52% 59%;
 }
 .dark {
-  --background: 158 25% 10%; --foreground: 42 30% 92%; --border: 158 16% 25%; --card: 158 22% 14%;
-  --card-foreground: 42 30% 92%; --input: 158 16% 25%; --ring: 151 55% 45%;
-  --primary: 151 52% 45%; --primary-foreground: 158 25% 10%; --secondary: 158 17% 22%; --secondary-foreground: 42 30% 92%;
-  --muted: 158 17% 20%; --muted-foreground: 42 12% 66%; --accent: 17 79% 58%; --accent-foreground: 42 30% 97%;
-  --destructive: 1 66% 52%; --destructive-foreground: 42 30% 97%; --sidebar: 158 28% 8%; --sidebar-foreground: 45 30% 94%;
-  --sidebar-border: 158 22% 19%; --sidebar-primary: 151 55% 42%; --sidebar-primary-foreground: 45 30% 94%;
-  --sidebar-accent: 158 22% 17%; --sidebar-accent-foreground: 45 30% 94%; --sidebar-ring: 151 55% 42%;
-  --card-border: 158 16% 25%; --popover: 158 22% 14%; --popover-foreground: 42 30% 92%; --popover-border: 158 16% 25%;
-  --chart-1: 151 55% 48%; --chart-2: 17 79% 58%; --chart-3: 43 80% 52%; --chart-4: 189 38% 52%; --chart-5: 10 40% 62%;
+  --background: 220 13% 8%; --foreground: 210 18% 92%; --border: 220 9% 20%; --card: 220 12% 11%;
+  --card-foreground: 210 18% 92%; --input: 220 10% 17%; --ring: 145 58% 48%;
+  --primary: 145 58% 47%; --primary-foreground: 220 15% 8%; --secondary: 220 10% 16%; --secondary-foreground: 210 18% 90%;
+  --muted: 220 10% 15%; --muted-foreground: 216 8% 61%; --accent: 145 58% 47%; --accent-foreground: 220 15% 8%;
+  --destructive: 3 61% 57%; --destructive-foreground: 210 18% 95%; --sidebar: 220 14% 7%; --sidebar-foreground: 210 18% 92%;
+  --sidebar-border: 220 9% 19%; --sidebar-primary: 145 58% 47%; --sidebar-primary-foreground: 220 15% 8%;
+  --sidebar-accent: 220 10% 14%; --sidebar-accent-foreground: 210 18% 92%; --sidebar-ring: 145 58% 47%;
+  --card-border: 220 9% 20%; --popover: 220 12% 11%; --popover-foreground: 210 18% 92%; --popover-border: 220 9% 20%;
+  --chart-1: 145 58% 47%; --chart-2: 31 66% 58%; --chart-3: 193 42% 54%; --chart-4: 269 29% 62%; --chart-5: 4 52% 59%;
 }
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
-body { margin: 0; font-family: var(--app-font-sans); background: hsl(var(--background)); color: hsl(var(--foreground)); }
+body { margin: 0; min-width: 320px; font-family: var(--app-font-sans); background: hsl(var(--background)); color: hsl(var(--foreground)); }
 button, input, select { font: inherit; }
 button, a { -webkit-tap-highlight-color: transparent; }
-:focus-visible { outline: 3px solid hsl(var(--accent)); outline-offset: 3px; }
-.display { font-family: 'Barlow Condensed', sans-serif; letter-spacing: -.025em; }
-.shell { max-width: 1336px; margin: 0 auto; padding: 0 30px; }
-.topbar { background: #173b30; color: #f5f0e6; }
-.score-line { height: 1px; background: linear-gradient(90deg, transparent, hsl(var(--border)), transparent); }
+:focus-visible { outline: 2px solid hsl(var(--primary)); outline-offset: 3px; }
+.display { font-family: 'Manrope', sans-serif; letter-spacing: -.045em; }
+.shell { width: min(1240px, 100%); margin: 0 auto; padding: 0 32px; }
+.topbar { position: sticky; top: 0; z-index: 20; background: rgba(17,19,23,.92); color: #e8ebed; border-bottom: 1px solid rgba(255,255,255,.07); backdrop-filter: blur(16px); }
 .match-row { transition: background .18s ease, transform .18s ease; }
-.match-row:hover { background: hsl(var(--secondary) / .56); }
+.match-row:hover { background: rgba(255,255,255,.035); }
 .lift { transition: transform .2s ease, border-color .2s ease; }
 .lift:hover { transform: translateY(-2px); }
 .fade-up { animation: fade-up .35s ease both; }
-@keyframes fade-up { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
-.live-pulse { animation: live-pulse 1.5s ease-in-out infinite; }
-@keyframes live-pulse { 50% { opacity: .45; } }
-.pitch-mark { background-image: linear-gradient(90deg,transparent calc(50% - .5px),rgba(255,255,255,.1) 50%,transparent calc(50% + .5px)),radial-gradient(circle at center,transparent 0 54px,rgba(255,255,255,.1) 55px 56px,transparent 57px); }
+@keyframes fade-up { from { opacity: 0; transform: translateY(7px); } to { opacity: 1; transform: translateY(0); } }
+.live-pulse { animation: live-pulse 1.7s ease-in-out infinite; }
+@keyframes live-pulse { 50% { opacity: .48; } }
+.pitch-mark { background-image: linear-gradient(90deg,transparent calc(50% - .5px),rgba(255,255,255,.08) 50%,transparent calc(50% + .5px)),radial-gradient(circle at center,transparent 0 88px,rgba(255,255,255,.07) 89px 90px,transparent 91px); }
+.mono { font-family: 'IBM Plex Mono', monospace; }
+::selection { background: hsl(var(--primary) / .35); }
 @media(max-width:760px) { .shell { padding: 0 16px; } }
 @media(prefers-reduced-motion:reduce) { *,*::before,*::after { scroll-behavior:auto!important; animation-duration:.01ms!important; transition-duration:.01ms!important; } }

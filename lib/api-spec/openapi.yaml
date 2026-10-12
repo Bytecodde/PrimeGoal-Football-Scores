@@ -30,7 +30,7 @@ paths:
     get:
       operationId: getFootballFixtures
       tags: [football]
-      summary: Get football fixtures for a date
+      summary: Get verified football fixtures for a date
       parameters:
         - name: date
           in: query
@@ -45,13 +45,19 @@ paths:
             type: string
       responses:
         "200":
-          description: Fixtures from the configured provider or clearly identified demonstration data
+          description: Fixtures from the configured live football data provider
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/FootballFixturesResponse"
         "502":
           description: Football data provider could not be reached
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "503":
+          description: The live football data provider is not configured
           content:
             application/json:
               schema:
@@ -63,13 +69,19 @@ paths:
       summary: List football competitions
       responses:
         "200":
-          description: Competitions from the configured provider or demonstration catalogue
+          description: Competitions from the configured live football data provider
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/FootballCompetitionsResponse"
         "502":
           description: Football data provider could not be reached
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "503":
+          description: The live football data provider is not configured
           content:
             application/json:
               schema:
@@ -104,6 +116,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
+        "503":
+          description: The live football data provider is not configured
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
   /football/matches/{id}:
     get:
       operationId: getFootballMatch
@@ -134,6 +152,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
+        "503":
+          description: The live football data provider is not configured
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
 components:
   schemas:
     HealthStatus:
@@ -151,7 +175,7 @@ components:
       required: [error]
     FootballSource:
       type: string
-      enum: [live, demo]
+      enum: [live]
     FootballTeam:
       type: object
       properties:
@@ -184,6 +208,68 @@ components:
         away:
           type: ["integer", "null"]
       required: [home, away]
+    FootballMatchEvent:
+      type: object
+      properties:
+        minute:
+          type: ["integer", "null"]
+        type:
+          type: string
+        teamName:
+          type: ["string", "null"]
+        playerName:
+          type: ["string", "null"]
+        detail:
+          type: ["string", "null"]
+        score:
+          oneOf:
+            - $ref: "#/components/schemas/FootballScore"
+            - type: "null"
+      required: [minute, type, teamName, playerName, detail, score]
+    FootballPlayer:
+      type: object
+      properties:
+        id:
+          type: ["integer", "null"]
+        name:
+          type: string
+        position:
+          type: ["string", "null"]
+        shirtNumber:
+          type: ["integer", "null"]
+      required: [id, name, position, shirtNumber]
+    FootballLineup:
+      type: object
+      properties:
+        teamId:
+          type: ["integer", "null"]
+        teamName:
+          type: string
+        formation:
+          type: ["string", "null"]
+        coach:
+          type: ["string", "null"]
+        starters:
+          type: array
+          items:
+            $ref: "#/components/schemas/FootballPlayer"
+        substitutes:
+          type: array
+          items:
+            $ref: "#/components/schemas/FootballPlayer"
+      required: [teamId, teamName, formation, coach, starters, substitutes]
+    FootballStream:
+      type: object
+      properties:
+        providerName:
+          type: string
+        embedUrl:
+          type: string
+          format: uri
+        watchUrl:
+          type: ["string", "null"]
+          format: uri
+      required: [providerName, embedUrl, watchUrl]
     FootballMatch:
       type: object
       properties:
@@ -209,7 +295,19 @@ components:
           type: ["integer", "null"]
         venue:
           type: ["string", "null"]
-      required: [id, utcDate, status, minute, competition, homeTeam, awayTeam, score, matchday, venue]
+        events:
+          type: array
+          items:
+            $ref: "#/components/schemas/FootballMatchEvent"
+        lineups:
+          type: array
+          items:
+            $ref: "#/components/schemas/FootballLineup"
+        stream:
+          oneOf:
+            - $ref: "#/components/schemas/FootballStream"
+            - type: "null"
+      required: [id, utcDate, status, minute, competition, homeTeam, awayTeam, score, matchday, venue, events, lineups, stream]
     FootballFixturesResponse:
       type: object
       properties:
