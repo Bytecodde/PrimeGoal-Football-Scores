@@ -7,6 +7,7 @@ import type {
   FootballStream,
   FootballStandingRow,
 } from "@workspace/api-zod";
+import { logger } from "./logger";
 
 const API_ROOT = "https://api.football-data.org/v4";
 
@@ -250,6 +251,38 @@ export class FootballProviderError extends Error {
   }
 }
 
+function safeProviderText(value: unknown, token: string): string | undefined {
+  if (typeof value !== "string") return undefined;
+  const safe = value
+    .split(token)
+    .join("[redacted]")
+    .replace(/\s+/g, " ")
+    .trim()
+    .slice(0, 300);
+  return safe || undefined;
+}
+
+function summarizeProviderError(body: string, token: string): {
+  providerErrorCode?: string;
+  providerMessage?: string;
+} {
+  if (!body) return {};
+  try {
+    const parsed = object(JSON.parse(body));
+    const errorCode = parsed.errorCode;
+    const providerErrorCode =
+      typeof errorCode === "string" || typeof errorCode === "number"
+        ? safeProviderText(String(errorCode), token)?.slice(0, 80)
+        : undefined;
+    return {
+      ...(providerErrorCode ? { providerErrorCode } : {}),
+      providerMessage: safeProviderText(parsed.message ?? parsed.error, token),
+    };
+  } catch {
+    return { providerMessage: safeProviderText(body, token) };
+  }
+}
+
 async function requestFootballData<T>(path: string): Promise<T> {
   const token = process.env.FOOTBALL_DATA_API_KEY?.trim();
   if (!token) {
@@ -264,10 +297,29 @@ async function requestFootballData<T>(path: string): Promise<T> {
       headers: { "X-Auth-Token": token },
       signal: AbortSignal.timeout(12000),
     });
-  } catch {
+  } catch (error) {
+    logger.error(
+      {
+        provider: "football-data.org",
+        endpoint: path,
+        errorType: error instanceof Error ? error.name : "unknown",
+      },
+      "Football data request failed before receiving a response",
+    );
     throw new FootballProviderError("Football data provider is unavailable.");
   }
   if (!response.ok) {
+    const errorBody = await response.text().catch(() => "");
+    const details = summarizeProviderError(errorBody, token);
+    logger.error(
+      {
+        provider: "football-data.org",
+        endpoint: path,
+        providerStatus: response.status,
+        ...details,
+      },
+      "Football data provider rejected the request",
+    );
     throw new FootballProviderError(
       `Football data provider returned HTTP ${response.status}.`,
     );
@@ -275,6 +327,14 @@ async function requestFootballData<T>(path: string): Promise<T> {
   try {
     return (await response.json()) as T;
   } catch {
+    logger.error(
+      {
+        provider: "football-data.org",
+        endpoint: path,
+        providerStatus: response.status,
+      },
+      "Football data provider returned invalid JSON",
+    );
     throw new FootballProviderError("Football data provider returned invalid data.");
   }
 }
@@ -292,7 +352,10 @@ export async function getCompetitions() {
 export async function getFixtures(date: string, competition?: string) {
   const key = `fixtures:${date}:${competition ?? "all"}`;
   return cached(key, 45_000, async () => {
-    const query = new URLSearchParams({ dateFrom: date, dateTo: date });
+    // The global list accepts `date`; competition-scoped lists ignore it and use the range filters.
+    const query = competition
+      ? new URLSearchParams({ dateFrom: date, dateTo: date })
+      : new URLSearchParams({ date });
     const endpoint = competition
       ? `/competitions/${encodeURIComponent(competition)}/matches?${query}`
       : `/matches?${query}`;

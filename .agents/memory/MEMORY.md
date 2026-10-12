@@ -1,0 +1,1 @@
+- [football-data.org date filters](football-data-date-filters.md) — global matches need `date`; competition matches need `dateFrom`/`dateTo`.
